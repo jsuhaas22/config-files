@@ -1,0 +1,51 @@
+# IMAP and SMTP configuration
+set imap_user=joshiesuhaas0@gmail.com
+set smtp_url="smtps://joshiesuhaas0@smtp.gmail.com"
+source "gpg -d ~/.config/mutt/password.gpg |"
+set from="joshiesuhaas0@gmail.com"
+set realname="Suhaas Joshi"
+
+# Email Sorting
+set sort_aux=last-date-received
+set sort=reverse-threads
+
+# Mailboxes
+set header_cache="~/cache/mutt"
+set message_cachedir="~/.cache/mutt"
+set folder="imaps://imap.gmail.com/"
+set spoolfile="+INBOX"
+set imap_check_subscribed
+
+
+# Email Sending Settings
+set abort_nosubject = yes
+set copy = no
+
+# Mail Checking
+set mail_check = 120
+set timeout = 10
+
+# KEY BINDINGS
+bind index j previous-page
+bind index k next-entry
+bind index l previous-entry
+bind index \; next-page
+bind pager g top
+bind pager G bottom
+bind attach,index gg first-entry
+bind attach,index G last-entry
+bind index,pager <down> sidebar-next
+bind index,pager <up> sidebar-prev
+bind index,pager \CO sidebar-open
+bind index,pager B sidebar-toggle-visible
+
+# SIDEBAR
+color indicator cyan black
+color sidebar_divider color8 black
+color sidebar_highlight black color8
+color sidebar_flagged red black
+color sidebar_new green black
+
+# misc
+set editor=vim
+set ssl_force_tls = yes
