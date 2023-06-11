@@ -3,8 +3,26 @@ window:
     lines: 20
     columns: 100
 
+# To install intelOne Mono:
+# 1. download otf.zip file from https://github.com/intel/intel-one-mono/releases
+# 2. "unzip otf.zip"
+# 3. install using either of the two options below:
+#   i. install "font-manager" (or kde-equivalent) and double-click on interesting font files inside otf directory
+#   ii. "cd otf" && "mv <whichever-file-you-want> /usr/local/share/fonts" && "fc-cache -f -v" && (optionally) "rm -rf otf otf.zip"
 font:
-  size: 10 
+  normal:
+    family: intelOne Mono
+    style: regular 
+  bold:
+    family: intelOne Mono
+    style: bold
+  italic:
+    family: intelOne Mono
+    style: italic
+  bold_italic:
+    family: intelOne Mono
+    style: italic
+  size: 14  
 
 # gruvbox theme
 colors:
