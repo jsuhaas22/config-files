@@ -58,6 +58,47 @@ function nuke_everything() {
     echo "> Nuked everything"
 }
 
+function setup_stm32_cmsis() {
+    echo "> Setting up CMSIS libraries for STM32F303x MCU"
+
+    echo "> Creating directories in $HOME/devel/stm32/cmsis..."
+    STMDevelDir="$HOME/devel/stm32/cmsis"
+    CMSISDir="$STMDevelDir/CMSIS"
+    DeviceDir="$CMSISDir/Device"
+
+    mkdir -p $STMDevelDir
+    mkdir -p $CMSISDir
+    mkdir -p $DeviceDir
+    echo "> Created directories in $HOME/devel/stm32/cmsis"
+
+    echo "> Cloning CMSIS_5 and cmsis_device_f3 directories..."
+    git clone https://github.com/ARM-software/CMSIS_5 $CMSISDir
+    cd $DeviceDir
+    mkdir ST && cd ST
+    clone https://github.com/STMicroelectronics/cmsis_device_f3 STM32F3
+    echo "> Cloned CMSIS_5 and cmsis_device_f3 directories"
+
+    echo "> Removing unnecessary directories and files"
+    for $dir in $CMSISDir; do
+	if [[ $dir == "Core" ]] ; then
+	    continue
+	else
+	    rm -rf $dir
+	fi
+    done
+
+    for $dir in $DeviceDir; do
+	if [[ $dir == "STM32F3" ]] ; then
+	    continue
+	else
+	    rm -rf $dir
+	fi
+    done
+    echo "> Removed unnecessary directories and files"
+
+    echo "> STM32 CMSIS set up"
+}
+
 if [[ $# -ne 1 ]] ; then
     echo "Incorrect usage. Correct usage: ./setup.sh <target>"
     exit 1
@@ -77,6 +118,9 @@ case $1 in
 	;;
     "setup-emacs")
 	setup_emacs
+	;;
+    "setup-stm32-cmsis")
+	setup_stm32_cmsis
 	;;
     "nuke-everything")
 	nuke_everything
