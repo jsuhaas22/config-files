@@ -19,6 +19,26 @@ function setup_vim() {
     echo "> Vim set up"
 }
 
+function setup_neovim() {
+    echo "> Setting up neovim"
+
+    echo "> Copying init.vim to $HOME/.config/nvim..."
+    mkdir -p $HOME/.config/nvim/
+    cp -v init.vim $HOME/config/nvim/
+    echo "> Copied init.vim to $HOME/.config/nvim"
+
+    echo "> Setting up plug"
+    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    echo "> Plug set up"
+
+    echo "> Installing plugins"
+    nvim +PlugInstall +qall
+    echo "> Plugins installed"
+
+    echo "> neovim set up"
+}
+
 function setup_alacritty() {
     echo "> Setting up alacritty..."
 
@@ -65,26 +85,30 @@ fi
 
 case $1 in
     "all")
-	setup_vim
-	setup_alacritty
-	setup_emacs
-	;;
+    setup_vim
+    setup_alacritty
+    setup_emacs
+    setup_neovim
+    ;;
     "setup-vim")
-	setup_vim
-	;;
+    setup_vim
+    ;;
+    "setup-neovim")
+    setup_neovim
+    :;
     "setup-alacritty")
-	setup_alacritty
-	;;
+    setup_alacritty
+    ;;
     "setup-emacs")
-	setup_emacs
-	;;
+    setup_emacs
+    ;;
     "nuke-everything")
-	nuke_everything
-	;;
+    nuke_everything
+    ;;
     *)
-	echo "Incorrect argument. Exiting."
-	exit 1
-	;;
+    echo "Incorrect argument. Exiting."
+    exit 1
+    ;;
 esac
 
 exit 0
