@@ -115,19 +115,23 @@ will be killed."
 ;; download packages if they aren't already downloaded.
 ;; this block reduces startup time by a bit but I don't care.
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(setq package-archives
+      '(("gnu"          . "https://elpa.gnu.org/packages/")
+        ("melpa"        . "https://melpa.org/packages/")
+        ("melpa-stable" . "https://stable.melpa.org/packages/")))
 (package-initialize)
 ;; I may have forgotten adding a few. Might have to be updated on a new machine.
 (setq req-packages
       '(projectile
+	persp-mode
 	ag
 	vertico
 	which-key-posframe
 	magit
 	notmuch
 	dts-mode
-	markdown-mode))
+	markdown-mode
+	vterm))
 ;; Iterate on packages and install missing ones
 (dolist (pkg req-packages)
   (unless (package-installed-p pkg)
@@ -153,12 +157,44 @@ will be killed."
   :config
   (which-key-mode +1))
 
+(use-package persp-mode
+  :ensure t
+  :init
+  (setq persp-keymap-prefix (kbd "C-c w"))
+  (setq persp-auto-resume-time 0)
+  (setq persp-auto-save-fname (locate-user-emacs-file "persp-auto-save"))
+  :config
+  ;; Keybindings / usage:
+  ;; C-c w s   Switch perspective (use to jump between project perspectives)
+  ;; C-c w l   List perspectives
+  ;; C-c w k   Kill current perspective
+  ;; Workflow:
+  ;; - Use Projectile to open projects (C-c p p); each project gets its own
+  ;;   perspective named after the project.
+  (persp-mode +1))
+
+(defun sjoshi/projectile-switch-project-action ()
+  "Switch to the project perspective and open its root directory."
+  (let ((project-name (projectile-project-name)))
+    (persp-switch project-name)
+    (projectile-dired)))
+
+
 (use-package projectile
   :ensure t
   :init
   (setq projectile-project-search-path '("~/projects/" ("~/git/" . 1)))
   :config
   ;; On Linux, however, I usually go with another one
+  ;; Keybindings / usage:
+  ;; C-c p p   Switch project (creates/switches to a project perspective)
+  ;; C-c p     Projectile command map
+  ;;
+  ;; Flow:
+  ;; - Switch project with C-c p p.
+  ;; - A perspective named after the project is created/switched to.
+  ;; - Project root opens in Dired.
+  (setq projectile-switch-project-action #'sjoshi/projectile-switch-project-action)
   (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
   (global-set-key (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1))
