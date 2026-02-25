@@ -16,6 +16,9 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+;; set a theme
+(load-theme 'tango-dark t)
+
 ;; display line numbers in each buffer
 (global-display-line-numbers-mode 1)
 
@@ -121,7 +124,7 @@ will be killed."
 (use-package projectile
   :ensure t
   :init
-  (setq projectile-project-search-path '("~/projects/" ("~/git/" . 1)))
+  (setq projectile-project-search-path '("~/projects/" "~/git/" "~/ti/git" "~/learn/nrf54l15-dk/i2c/bmesensor/" "~/zephyrproject"))
   :config
   ;; On Linux, however, I usually go with another one
   (define-key projectile-mode-map (kbd "C-c C-p") 'projectile-command-map)
