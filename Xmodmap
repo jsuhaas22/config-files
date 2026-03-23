@@ -1,0 +1,7 @@
+clear lock
+clear mod4
+keycode 66 = Super_L
+add mod4 = Super_L
+! Make old Super act as Caps Lock
+! keycode 133 = Caps_Lock
+add lock = Caps_Lock
