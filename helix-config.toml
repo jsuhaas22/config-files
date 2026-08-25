@@ -1,0 +1,19 @@
+theme = "onedark"
+
+[editor]
+text-width = 80
+
+[editor.soft-wrap]
+enable = true
+wrap-at-text-width = true
+
+[keys.normal]
+j = "move_char_left"
+l = "move_line_up"
+k = "move_line_down"
+";" = "move_char_right"
+
+[keys.normal.g]
+j = "goto_line_start"
+";" = "goto_line_end"
+G = "goto_file_end"
